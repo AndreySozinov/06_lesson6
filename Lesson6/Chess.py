@@ -8,12 +8,17 @@
 # 📌 Напишите функцию в шахматный модуль. Используйте генератор случайных чисел для
 # случайной расстановки ферзей в задаче выше. Проверяйте различный случайные варианты и
 # выведите 4 успешных расстановки.
-from random import randint as r
+from random import sample
 BOARD_SIZE = 8
 
 
 def eight_queens_check(coordinates: [[int]]) -> bool:
     """Проверка расстановки 8 ферзей"""
+    for i in range(len(coordinates) - 1):
+        for j in range(i + 1, len(coordinates)):
+            if coordinates[i] == coordinates[j]:
+                return False
+
     # Подготовка доски
     chess_board = [[0 for j in range(BOARD_SIZE)] for i in range(BOARD_SIZE)]
 
@@ -62,7 +67,12 @@ def eight_queens_check(coordinates: [[int]]) -> bool:
 def arrangement():
     i = 0
     while i < 4:
-        queens_coor = [[r(1, 8) for j in range(2)] for i in range(BOARD_SIZE)]
+        queens_coor = [[j for j in range(2)] for i in range(BOARD_SIZE)]
+        horisontal_coor = sample(range(1, 9), 8)
+        vertical_coor = sample(range(1, 9), 8)
+        for k in range(len(queens_coor)):
+            queens_coor[k][0] = horisontal_coor[k]
+            queens_coor[k][1] = vertical_coor[k]
         if eight_queens_check(queens_coor):
             print(queens_coor)
             print_chessboard(queens_coor)
@@ -78,14 +88,15 @@ def print_chessboard(coordinates: [[int]]):
         chess_board[queen[0] - 1][queen[1] - 1] = 1
 
     # Вывод доски на печать
-    print(' - - - - - - - -')
     for i in range(len(chess_board)):
+        print('-----------------------------------------')
         for j in range(len(chess_board[0])):
             if chess_board[i][j] == 1:
-                print(' Ф ', end=' ')
+                print('| Ф ', end=' ')
             else:
-                print('   ', end=' ')
-        print()
+                print('|   ', end=' ')
+        print('|')
+    print('=========================================\n')
 
 
 if __name__ == '__main__':
