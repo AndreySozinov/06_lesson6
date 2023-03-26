@@ -10,6 +10,7 @@
 # выведите 4 успешных расстановки.
 from random import sample
 BOARD_SIZE = 8
+__all__ = ['arrangement', 'eight_queens_check', 'print_chessboard']
 
 
 def eight_queens_check(coordinates: [[int]]) -> bool:
@@ -92,7 +93,7 @@ def print_chessboard(coordinates: [[int]]):
         print('-----------------------------------------')
         for j in range(len(chess_board[0])):
             if chess_board[i][j] == 1:
-                print('| Ф ', end=' ')
+                print(f'|{chr(9813):>2}', end=' ')
             else:
                 print('|   ', end=' ')
         print('|')
